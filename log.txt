@@ -1,0 +1,6 @@
+word not found: ipad
+Validation failed: Pronunciation can't be blank: google
+Validation failed: Pronunciation can't be blank: african-american
+Validation failed: Pronunciation can't be blank: long-standing
+word not found: networking
+Validation failed: Pronunciation can't be blank: ie
