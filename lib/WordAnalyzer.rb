@@ -28,5 +28,19 @@ class WordAnalyzer
         lemmatize(word) #TODO: 一旦品詞を無視してlemmatizeしてみる
       end.join(" ")
     end
+
+    def get_basic_forms(text, unique: true, sort: false)
+      text.gsub!("\n", "")
+      lemmatized = WordAnalyzer.lemmatize_sentence(text).split(" ")
+      lemmatized.map! { |word| word.gsub(/[“”]/, "")} #「"silent killer"」のような場合に対応
+
+      res = lemmatized.reject do |word|
+        word.match?(/['’()!,.0-9:]/)
+      end
+      
+      res.uniq! if unique
+      res.sort! if sort
+      res
+    end
   end
 end
