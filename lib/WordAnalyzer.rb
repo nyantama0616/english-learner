@@ -1,4 +1,6 @@
 class WordAnalyzer
+  @@dict_path = "#{Rails.root}/lib/data/dict/adv.exc"
+  @@lemmatizer = Lemmatizer.new(@@dict_path)
   @@tagger = EngTagger.new
 
   class << self
@@ -14,6 +16,17 @@ class WordAnalyzer
     @@advs = ["RB", "RBR", "RBS", "MD"]
     def part_of_speechs(sentence)
       tagged = @@tagger.get_readable(sentence.downcase).split(" ").map { |word| word.split("/") }
+    end
+
+    # 英文をlemmatizeする
+    def lemmatize_sentence(sentence)
+      tagged = part_of_speechs(sentence)
+      
+      tagged.map do |word, tag|
+        pos = tag_to_pos(tag)
+        # lemmatize(word, pos)
+        lemmatize(word) #TODO: 一旦品詞を無視してlemmatizeしてみる
+      end.join(" ")
     end
   end
 end
