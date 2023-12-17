@@ -42,5 +42,22 @@ class WordAnalyzer
       res.sort! if sort
       res
     end
+
+    private
+    
+    def tag_to_pos(tag)
+      case tag
+      when *@@verbs
+        :verb
+      when *@@nouns
+        :noun
+      when *@@adjs
+        :adj
+      when *@@advs
+        :adv
+      else
+        nil
+      end
+    end
   end
 end
