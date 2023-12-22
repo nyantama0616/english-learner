@@ -34,4 +34,19 @@ namespace :temp do
       end
     end
   end
+
+  task :fixtures => :environment do
+    words = Word.limit(500)
+    words.each do |word|
+      text = <<~TEXT
+        #{word.name}:
+          id: #{word.id}
+          name: #{word.name}
+          pronunciation: aaa
+
+      TEXT
+      
+      puts text
+    end
+  end
 end
