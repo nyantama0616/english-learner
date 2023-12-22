@@ -16,11 +16,12 @@ class V1::WordsController < ApplicationController
   #TODO: エラーハンドリングする
   def update
     datum = update_params[:datum]
-    
+
     datum.each do |data|
-      id, meaning = data["wordId"], data["meaning"]
+      id = data[:wordId]
+      data = data.slice(:meaning, :reported).compact
       word = Word.find(id)
-      word.update(meaning: meaning)
+      word.update(data)
     end
 
     head :ok
@@ -30,7 +31,7 @@ class V1::WordsController < ApplicationController
 
   def word_infos(words)
     words.map do |word|
-      json = word.as_json(only: [:id, :name, :meaning, :stat_frequency])
+      json = word.as_json(only: [:id, :name, :meaning, :stat_frequency, :reported])
       json["word"] = json.delete("name")
       json.deep_transform_keys! { |key| key.camelize(:lower) }
       json
@@ -42,6 +43,6 @@ class V1::WordsController < ApplicationController
   end
 
   def update_params
-    params.permit(datum: [:wordId, :meaning])
+    params.permit(datum: [:wordId, :meaning, :reported])
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_22_082307) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_22_135902) do
   create_table "basic_train_data", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "answer_count"
     t.integer "right_count"
@@ -30,6 +30,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_22_082307) do
     t.datetime "updated_at", null: false
     t.string "pronunciation", null: false
     t.string "meaning", default: ""
+    t.boolean "reported", default: false
     t.index ["stat_frequency"], name: "index_words_on_stat_frequency"
   end
 

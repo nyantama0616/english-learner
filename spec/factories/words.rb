@@ -5,5 +5,6 @@ FactoryBot.define do
     meaning { "テスト" }
     stat_frequency { 0.0 }
     pronunciation { "test" }
+    reported { false }
   end
 end

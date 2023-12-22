@@ -15,7 +15,7 @@ RSpec.describe "V1::Words", type: :request do
       end
 
       it "レスポンス形式が正しい" do
-        expected = ["id", "word", "meaning", "statFrequency"].sort
+        expected = ["id", "word", "meaning", "statFrequency", "reported"].sort
         expect(@words[0].keys.sort).to eq(expected)
       end
       
@@ -29,7 +29,6 @@ RSpec.describe "V1::Words", type: :request do
         end
       end
     end
-
   end
   
   before do
@@ -52,8 +51,10 @@ RSpec.describe "V1::Words", type: :request do
       @words_old = FactoryBot.create_list(:word, 3)
       @datum = @words_old.map do |word|
         {
+          #TODO: いずれかのparamsがnilだった場合のテストを書く
           wordId: word.id,
           meaning: "new meaning",
+          reported: true
         }
       end
       patch "/v1/words", params: { datum: @datum }
@@ -72,6 +73,12 @@ RSpec.describe "V1::Words", type: :request do
       it "meaningが更新されている" do
         @words_new.each do |word|
           expect(word.meaning).to eq("new meaning")
+        end
+      end
+
+      it "reportedが更新されている" do
+        @words_new.each do |word|
+          expect(word.reported).to eq(true)
         end
       end
     end
