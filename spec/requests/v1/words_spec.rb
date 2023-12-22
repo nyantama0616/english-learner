@@ -5,7 +5,7 @@ RSpec.describe "V1::Words", type: :request do
     before do
       @limit = 100
       @min_stat_frequency = 2.0
-      get v1_words_path, params: { limit: @limit, min_stat_frequency: @min_stat_frequency }
+      get v1_words_path, params: { limit: @limit, minStatFrequency: @min_stat_frequency }
       @words = JSON.parse(response.body)["words"]
     end
 
@@ -15,7 +15,7 @@ RSpec.describe "V1::Words", type: :request do
       end
 
       it "レスポンス形式が正しい" do
-        expected = ["id", "word", "meaning", "stat_frequency"].sort
+        expected = ["id", "word", "meaning", "statFrequency"].sort
         expect(@words[0].keys.sort).to eq(expected)
       end
       
@@ -25,7 +25,7 @@ RSpec.describe "V1::Words", type: :request do
 
       it "stat_frequencyが全てmin_stat_frequency以上" do
         @words.each do |word|
-          expect(word["stat_frequency"]).to be >= @min_stat_frequency
+          expect(word["statFrequency"]).to be >= @min_stat_frequency
         end
       end
     end
@@ -34,7 +34,7 @@ RSpec.describe "V1::Words", type: :request do
   
   before do
     @limit = 5001
-    get v1_words_path, params: { limit: @limit, min_stat_frequency: @min_stat_frequency }
+    get v1_words_path, params: { limit: @limit, minStatFrequency: @min_stat_frequency }
   end
 
   describe "5000より大きいlimitを指定した場合" do

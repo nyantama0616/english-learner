@@ -1,6 +1,6 @@
 class V1::WordsController < ApplicationController
   def index
-    min_stat_frequency = filter_params[:min_stat_frequency] || 0
+    min_stat_frequency = filter_params[:minStatFrequency] || 0
     limit = filter_params[:limit].to_i || 10
     
     if limit > 5000
@@ -19,11 +19,12 @@ class V1::WordsController < ApplicationController
     words.map do |word|
       json = word.as_json(only: [:id, :name, :meaning, :stat_frequency])
       json["word"] = json.delete("name")
+      json.deep_transform_keys! { |key| key.camelize(:lower) }
       json
     end
   end
 
   def filter_params
-    params.permit(:min_stat_frequency, :limit)
+    params.permit(:minStatFrequency, :limit)
   end
 end
