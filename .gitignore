@@ -34,3 +34,5 @@ lib/data/*
 
 lib/tasks/temp.rb
 db/backup/
+
+test/fixtures/*
