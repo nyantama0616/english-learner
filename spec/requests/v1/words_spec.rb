@@ -46,4 +46,34 @@ RSpec.describe "V1::Words", type: :request do
       expect(JSON.parse(response.body)["error"]).to eq("limitは5000以下にしてください")
     end
   end
+
+  describe "PATCH /words" do
+    before do
+      @words_old = FactoryBot.create_list(:word, 3)
+      @datum = @words_old.map do |word|
+        {
+          wordId: word.id,
+          meaning: "new meaning",
+        }
+      end
+      patch "/v1/words", params: { datum: @datum }
+      @words_new = @words_old.map { |word| Word.find(word.id) }
+    end
+
+    describe "適切なパラメータを渡した場合" do
+      it "200返ってくる" do
+        expect(response).to have_http_status(200)
+      end
+
+      it "空のレスポンスが返ってくる" do
+        expect(response.body).to eq("")
+      end
+      
+      it "meaningが更新されている" do
+        @words_new.each do |word|
+          expect(word.meaning).to eq("new meaning")
+        end
+      end
+    end
+  end
 end

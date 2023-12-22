@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   # root "articles#index"
   namespace :v1 do
     get "devs/ping", to: "devs#ping"
+    
     resources :words, only: [:index]
+    patch "words", to: "words#update"
 
     get "weblio/:word", to: "weblio#show"
   end

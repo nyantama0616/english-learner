@@ -13,6 +13,19 @@ class V1::WordsController < ApplicationController
     render json: { words: word_infos(words) }
   end
 
+  #TODO: エラーハンドリングする
+  def update
+    datum = update_params[:datum]
+    
+    datum.each do |data|
+      id, meaning = data["wordId"], data["meaning"]
+      word = Word.find(id)
+      word.update(meaning: meaning)
+    end
+
+    head :ok
+  end
+
   private
 
   def word_infos(words)
@@ -26,5 +39,9 @@ class V1::WordsController < ApplicationController
 
   def filter_params
     params.permit(:minStatFrequency, :limit)
+  end
+
+  def update_params
+    params.permit(datum: [:wordId, :meaning])
   end
 end
