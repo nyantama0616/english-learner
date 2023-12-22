@@ -6,5 +6,7 @@ Rails.application.routes.draw do
   namespace :v1 do
     get "devs/ping", to: "devs#ping"
     resources :words, only: [:index]
+
+    get "weblio/:word", to: "weblio#show"
   end
 end
