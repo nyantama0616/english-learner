@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   # root "articles#index"
   namespace :v1 do
     get "devs/ping", to: "devs#ping"
+    resources :words, only: [:index]
   end
 end
