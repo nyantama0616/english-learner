@@ -19,7 +19,7 @@ module FetchWordInfo
 
       json = JSON.parse(response.body)
       if json["success"] == false
-        puts "#{json["message"]}: #{word_name}"
+        puts "Failed to fetch. #{json["message"]}: #{word_name}"
         return
       end
       

@@ -1,5 +1,6 @@
 class WordAnalyzer
-  @@dict_path = "#{Rails.root}/lib/data/dict/adv.exc"
+  DICT_DIR = "#{Rails.root}/lib/data/dict" #TODO: privateにしたい
+  @@dict_path = ["/adv.exc", "/noun.exc"].map { |file| DICT_DIR + file }
   @@lemmatizer = Lemmatizer.new(@@dict_path)
   @@tagger = EngTagger.new
 
@@ -35,7 +36,7 @@ class WordAnalyzer
       lemmatized.map! { |word| word.gsub(/[“”]/, "")} #「"silent killer"」のような場合に対応
 
       res = lemmatized.reject do |word|
-        word.match?(/['’()!,.0-9:]/)
+        word.match?(/['’()!,.0-9:#]/)
       end
       
       res.uniq! if unique

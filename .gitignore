@@ -29,7 +29,8 @@
 /config/master.key
 
 .env
-lib/data/
+lib/data/*
+!lib/data/dict/
 
 lib/tasks/temp.rb
 db/backup/
