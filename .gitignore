@@ -29,4 +29,7 @@
 /config/master.key
 
 .env
-lib/tasks/add_words/data/
+lib/data/
+
+lib/tasks/temp.rb
+db/backup/
