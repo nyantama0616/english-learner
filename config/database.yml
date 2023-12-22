@@ -16,6 +16,7 @@ default: &default
   username: root
   password: password
   host: db
+  port: 3306
 
 development:
   <<: *default
