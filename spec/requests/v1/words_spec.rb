@@ -16,7 +16,8 @@ RSpec.describe "V1::Words", type: :request do
     end
 
     it "レスポンス形式が正しい" do
-      expect(@words[0].keys).to eq(["id", "word"])
+      expected = ["id", "word", "meaning"].sort
+      expect(@words[0].keys.sort).to eq(expected)
     end
   end
 end

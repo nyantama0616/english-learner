@@ -9,7 +9,7 @@ class V1::WordsController < ApplicationController
 
   def word_infos(words)
     words.map do |word|
-      json = word.as_json(only: [:id, :name])
+      json = word.as_json(only: [:id, :name, :meaning])
       json["word"] = json.delete("name")
       json
     end
