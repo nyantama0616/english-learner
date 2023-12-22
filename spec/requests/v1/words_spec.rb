@@ -16,8 +16,7 @@ RSpec.describe "V1::Words", type: :request do
     end
 
     it "レスポンス形式が正しい" do
-      word = JSON.parse(@words[0])
-      expect(word.keys).to eq(["id", "name"])
+      expect(@words[0].keys).to eq(["id", "word"])
     end
   end
 end
