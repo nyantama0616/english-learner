@@ -10,14 +10,16 @@ class V1::ArticlesController < ApplicationController
     if article
       render json: article_info(article)
     else
-      render json: { error: "Article not found" }, status: 404
+      render json: { error: "Article not found" }, status: :not_found
     end
   end
 
   def create
     article = Article.new(article_params)
     if article.save
-      render json: article_info(article)
+      render json: article_info(article), status: :created
+    else
+      render json: { error: "Failed to create article" }, status: :unprocessable_entity
     end
   end
 
@@ -33,5 +35,9 @@ class V1::ArticlesController < ApplicationController
     json = article.as_json(only: [:id, :title, :body, :word_count])
     json.deep_transform_keys! { |key| key.camelize(:lower) }
     json
+  end
+
+  def article_params
+    params.require(:article).permit(:title, :body)
   end
 end

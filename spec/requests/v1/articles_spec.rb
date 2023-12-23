@@ -40,4 +40,26 @@ RSpec.describe "V1::Articles", type: :request do
       expect(response).to have_http_status(404)  
     end
   end
+
+  describe "POST /create" do
+    before do
+      @params = { article: { title: "title", body: "body" } }
+      post "/v1/articles/", params: @params
+      @json = JSON.parse(response.body)
+    end
+
+    it "returns http success" do
+      expect(response).to have_http_status(:created)
+    end
+
+    it "レスポンス形式が正しい" do
+      keys = %w[id title body wordCount].sort
+      expect(@json.keys.sort).to eq(keys)
+    end
+
+    it "Articleが作成される" do
+      article = Article.find_by_id(@json["id"])
+      expect(article).to be_present
+    end
+  end
 end
