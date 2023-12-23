@@ -22,6 +22,20 @@ class V1::ArticlesController < ApplicationController
       render json: { error: "Failed to create article" }, status: :unprocessable_entity
     end
   end
+  
+  def update
+    article = Article.find_by_id(params[:id])
+
+    unless article
+      render json: { error: "Article not found" }, status: :not_found
+    end
+
+    if article.update(article_params)
+      render json: article_info(article)
+    else
+      render json: { error: "Failed to update article" }, status: :unprocessable_entity
+    end
+  end
 
   private
 
@@ -38,6 +52,6 @@ class V1::ArticlesController < ApplicationController
   end
 
   def article_params
-    params.require(:article).permit(:title, :body)
+    params.require(:article).permit(:title, :body).compact
   end
 end
