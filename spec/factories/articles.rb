@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :article do
-    title { "Test Article" }
+    sequence(:title) { |n| "Test Article #{n}" }
     body { 
       <<-TEXT
         word0 word1.
