@@ -3,8 +3,9 @@ require 'rails_helper'
 RSpec.describe "V1::Words", type: :request do
   describe "GET /index" do
     before do
-      @limit = 100
-      @min_stat_frequency = 2.0
+      FactoryBot.create_list(:word, 10)
+      @limit = 5
+      @min_stat_frequency = 1.5
       get v1_words_path, params: { limit: @limit, minStatFrequency: @min_stat_frequency }
       @words = JSON.parse(response.body)["words"]
     end
