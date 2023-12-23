@@ -34,5 +34,10 @@ RSpec.describe "V1::Articles", type: :request do
       keys = %w[id title body wordCount].sort
       expect(@json.keys.sort).to eq(keys)
     end
+
+    it "Articleが存在しない場合は404を返す" do
+      get "/v1/articles/-1"
+      expect(response).to have_http_status(404)  
+    end
   end
 end

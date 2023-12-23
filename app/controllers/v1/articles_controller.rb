@@ -5,9 +5,18 @@ class V1::ArticlesController < ApplicationController
   end
 
   def show
-    article = Article.find(params[:id])
+    article = Article.find_by_id(params[:id])
     
     if article
+      render json: article_info(article)
+    else
+      render json: { error: "Article not found" }, status: 404
+    end
+  end
+
+  def create
+    article = Article.new(article_params)
+    if article.save
       render json: article_info(article)
     end
   end
