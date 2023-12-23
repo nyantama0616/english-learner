@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resources :words, only: [:index]
     patch "words", to: "words#update"
 
-    resources :articles, only: [:index]
+    resources :articles, only: [:index, :show]
 
     get "weblio/:word", to: "weblio#show"
   end
