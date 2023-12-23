@@ -1,3 +1,5 @@
+require "open-uri"
+
 namespace :temp do
   task :lemmatize => :environment do
     res = WordAnalyzer.lemmatize("legs")
@@ -43,10 +45,18 @@ namespace :temp do
           id: #{word.id}
           name: #{word.name}
           pronunciation: aaa
+          stat_frequency: #{word.stat_frequency}
 
       TEXT
       
       puts text
     end
+
+  end
+  
+  task :get_html => :environment do
+    url = "https://ejje.weblio.jp/content/a"
+    html = URI.open(url).read
+    puts html
   end
 end
