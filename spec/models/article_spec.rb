@@ -39,8 +39,15 @@ RSpec.describe Article, type: :model do
     expect(@article).to be_invalid
   end
 
-  it "保存時にword_count=12となる" do
+  it "作成時にword_count=12となる" do
     @article.save!
     expect(@article.word_count).to eq(12)
+  end
+
+  it "編集時にword_count=3となる" do
+    params = { body: %w[word0 word1 word2] }
+    @article.save!
+    @article.update!(params)
+    expect(@article.word_count).to eq(3)
   end
 end
