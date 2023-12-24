@@ -42,4 +42,10 @@ RSpec.describe Word, type: :model do
     expect(@word.pronunciation).to eq(info[:pronunciation])
     expect(@word.stat_frequency).to eq(info[:frequency])
   end
+
+  it "validation時にnameがlemmatizeされる" do
+    @word.name = "was"
+    @word.valid?
+    expect(@word.name).to eq("be")
+  end
 end

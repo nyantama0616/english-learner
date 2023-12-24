@@ -5,6 +5,7 @@ class Word < ApplicationRecord
   
   validates :name, uniqueness: true, presence: true, length: { maximum: 255 }
 
+  before_validation :lemmatize
   before_save :set_info
 
   def info
@@ -25,5 +26,9 @@ class Word < ApplicationRecord
 
     self.pronunciation = info[:pronunciation]
     self.stat_frequency = info[:frequency]
+  end
+
+  def lemmatize
+    self.name = WordAnalyzer.lemmatize(self.name) if self.name
   end
 end
