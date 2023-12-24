@@ -8,6 +8,10 @@ class Article < ApplicationRecord
     body.split.reject {|word| word.include?("#")}.count
   end
 
+  def words
+    WordAnalyzer.get_words(body)
+  end
+
   private
 
   def set_word_count

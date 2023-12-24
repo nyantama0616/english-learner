@@ -32,6 +32,7 @@ class WordAnalyzer
 
     def get_words(text, unique: true)
       words = text.scan(/\b\w+\b/)
+      words.map!(&:downcase)
       words.uniq! if unique
       words.select! { |word| is_word?(word) }
       words

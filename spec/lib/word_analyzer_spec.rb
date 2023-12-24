@@ -119,7 +119,7 @@ RSpec.describe "WordAnalyzer", type: :job do
 
   context "get_words" do
     it "case1" do
-      expected = %w[Why is pandas so popular What Panda giant was fighter yes no years]
+      expected = %w[why is pandas so popular what panda giant was fighter yes no years]
       expect(WordAnalyzer.get_words(@text).sort).to eq(expected.sort)
     end
   end
