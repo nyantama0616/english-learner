@@ -108,17 +108,26 @@ RSpec.describe "WordAnalyzer", type: :job do
     end
   end
 
+  before do
+    @text = <<~TEXT
+      Why is pandas so popular?
+
+      ### What is pandas?
+      Panda(giant) was "fighter" yes (no) 100 years.
+    TEXT
+  end
+
+  context "get_words" do
+    it "case1" do
+      expected = %w[Why is pandas so popular What Panda giant was fighter yes no years]
+      expect(WordAnalyzer.get_words(@text).sort).to eq(expected.sort)
+    end
+  end
+
   context "get_basic_forms" do
     it "case1" do
-      text = <<~TEXT
-        Why is pandas so popular?
-  
-        ### What is pandas?
-        Panda(giant) is "fighter" yes (no) 100 years.
-      TEXT
-      
       expected = %w[why be panda so popular what giant fighter yes no year]
-      expect(WordAnalyzer.get_basic_forms(text).sort).to eq(expected.sort)
+      expect(WordAnalyzer.get_basic_forms(@text).sort).to eq(expected.sort)
     end
   end
 end

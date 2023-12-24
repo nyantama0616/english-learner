@@ -30,14 +30,19 @@ class WordAnalyzer
       end.join(" ")
     end
 
-    def get_basic_forms(text, unique: true, sort: false)
+    def get_words(text, unique: true)
+      words = text.scan(/\b\w+\b/)
+      words.uniq! if unique
+      words.select! { |word| is_word?(word) }
+      words
+    end
+
+    def get_basic_forms(text, unique: true)
       text.gsub!("\n", "")
-      lemmatized = WordAnalyzer.lemmatize_sentence(text).split(" ")
-      lemmatized.map! { |word| word.gsub(/[“”'`?]/, "")} #「"silent killer"」のような場合に対応
-      res = lemmatized.select { |word| is_word?(word) }
+      lemmatized = WordAnalyzer.lemmatize_sentence(text).scan(/\b\w+\b/)
       
+      res = lemmatized.select { |word| is_word?(word) }
       res.uniq! if unique
-      res.sort! if sort
       res
     end
 
