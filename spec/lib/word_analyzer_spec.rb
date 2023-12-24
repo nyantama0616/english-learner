@@ -130,4 +130,26 @@ RSpec.describe "WordAnalyzer", type: :job do
       expect(WordAnalyzer.get_basic_forms(@text).sort).to eq(expected.sort)
     end
   end
+
+  context "test_lemmatize" do
+    it "複数形" do
+      expect(WordAnalyzer.test_lemmatize("humans")).to eq(false)
+    end
+
+    it "過去形" do
+      expect(WordAnalyzer.test_lemmatize("**ed")).to eq(false)
+    end
+    
+    it "進行形" do
+      expect(WordAnalyzer.test_lemmatize("**ing")).to eq(false)
+    end
+    
+    it "比較級" do
+      expect(WordAnalyzer.test_lemmatize("**er")).to eq(false)
+    end
+    
+    it "最上級" do
+      expect(WordAnalyzer.test_lemmatize("**est")).to eq(false)
+    end
+  end
 end

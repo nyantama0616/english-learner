@@ -51,6 +51,16 @@ class WordAnalyzer
       !word.match?(/['’()!,.0-9:#]/) && word.length > 0
     end
 
+    ### lemmatizeがうまくいっているかテストする関数
+    def test_lemmatize(word)
+      lemmatized = lemmatize(word)
+      if word == lemmatized && (lemmatized.match?(/s$/) || lemmatized.match?(/ing$/) || lemmatized.match?(/ed$/) || lemmatized.match?(/er$/) || lemmatized.match?(/est$/))
+        false
+      else
+        true
+      end
+    end
+
     private
     
     def tag_to_pos(tag)
