@@ -19,9 +19,14 @@ module FetchWordInfo
 
       json = JSON.parse(response.body)
       if json["success"] == false
-        puts "Failed to fetch. #{json["message"]}: #{word_name}"
+        MyLogger::WordsAPI.word_not_found(word_name)
+        return
+      elsif json["pronunciation"] == nil
+        MyLogger::WordsAPI.pronunciation_not_found(json)
         return
       end
+
+      MyLogger::WordsAPI.success(word_name)
       
       res = {
         name: json["word"],
