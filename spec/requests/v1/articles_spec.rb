@@ -91,4 +91,38 @@ RSpec.describe "V1::Articles", type: :request do
       expect(response).to have_http_status(404)  
     end
   end
+
+  describe "GET /articles/:article_id/words" do
+    before do
+      title = "Test Article"
+      body = <<~TEXT
+        I was born ?Q?.
+      TEXT
+      
+      @article = FactoryBot.create(:article, title: title, body: body)
+      @words = %w[i be born].each do |word|
+        FactoryBot.create(:word, name: word)
+      end
+
+      get "/v1/articles/#{@article["id"]}/words"
+      @json = JSON.parse(response.body)
+    end
+
+    it "200が返ってくる" do
+      expect(response).to have_http_status(200)
+    end
+
+    it "レスポンス形式が正しい" do
+      expect(@json["words"]["i"]).to eq(Word.find_by_name("i").info)
+    end
+    
+    it "存在しない単語はレスポンスに含まない" do
+      expect(@json["words"]["?Q?"]).to eq(nil)
+    end
+
+    it "Articleが存在しない場合は404を返す" do
+      get "/v1/articles/-1/words"
+      expect(response).to have_http_status(404)
+    end
+  end
 end

@@ -10,7 +10,7 @@ class V1::WordsController < ApplicationController
 
     words = Word.where('stat_frequency >= ?', min_stat_frequency).order(stat_frequency: :desc).limit(limit)
     
-    render json: { words: word_infos(words) }
+    render json: { words: words.map(&:info) }
   end
 
   #TODO: エラーハンドリングする
@@ -28,15 +28,6 @@ class V1::WordsController < ApplicationController
   end
 
   private
-
-  def word_infos(words)
-    words.map do |word|
-      json = word.as_json(only: [:id, :name, :meaning, :stat_frequency, :reported])
-      json["word"] = json.delete("name")
-      json.deep_transform_keys! { |key| key.camelize(:lower) }
-      json
-    end
-  end
 
   def filter_params
     params.permit(:minStatFrequency, :limit)

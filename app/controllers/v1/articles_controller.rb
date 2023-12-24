@@ -28,6 +28,7 @@ class V1::ArticlesController < ApplicationController
 
     unless article
       render json: { error: "Article not found" }, status: :not_found
+      return
     end
 
     if article.update(article_params)
@@ -35,6 +36,24 @@ class V1::ArticlesController < ApplicationController
     else
       render json: { error: "Failed to update article" }, status: :unprocessable_entity
     end
+  end
+
+  def words
+    article = Article.find_by_id(params[:article_id])
+
+    unless article
+      render json: { error: "Article not found" }, status: :not_found
+      return
+    end
+
+    words = article.words.map do |word_name|
+      lemmatized = WordAnalyzer.lemmatize(word_name)
+      word = Word.find_by_name(lemmatized)
+      word ? [word_name, word.info] : nil
+    end
+
+    res = words.compact.to_h
+    render json: { words: res}
   end
 
   private

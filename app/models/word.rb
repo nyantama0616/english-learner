@@ -7,6 +7,13 @@ class Word < ApplicationRecord
 
   before_save :set_info
 
+  def info
+    json = as_json(only: [:id, :name, :meaning, :stat_frequency, :reported])
+    json["word"] = json.delete("name")
+    json.deep_transform_keys! { |key| key.camelize(:lower) }
+    json
+  end
+
   private
 
   def set_info
