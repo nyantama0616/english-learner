@@ -91,4 +91,34 @@ RSpec.describe "WordAnalyzer", type: :job do
       expect(lemmatized).to eq("our math teacher explain a complex algebraic concept in a way that make it much easy for everyone in the class to understand .")
     end
   end
+
+  context "is_word?" do
+    it "単語" do
+      words = %w[apple banana orange]
+      words.each do |word|
+        expect(WordAnalyzer.is_word?(word)).to eq(true)
+      end
+    end
+
+    it "単語でない" do
+      words = %w[a.p, nek!o, 123, 'yes', "no", ##]
+      words.each do |word|
+        expect(WordAnalyzer.is_word?(word)).to eq(false)
+      end
+    end
+  end
+
+  context "get_basic_forms" do
+    it "case1" do
+      text = <<~TEXT
+        Why is pandas so popular?
+  
+        ### What is pandas?
+        Panda(giant) is "fighter" yes (no) 100 years.
+      TEXT
+      
+      expected = %w[why be panda so popular what giant fighter yes no year]
+      expect(WordAnalyzer.get_basic_forms(text).sort).to eq(expected.sort)
+    end
+  end
 end

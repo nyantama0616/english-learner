@@ -33,15 +33,16 @@ class WordAnalyzer
     def get_basic_forms(text, unique: true, sort: false)
       text.gsub!("\n", "")
       lemmatized = WordAnalyzer.lemmatize_sentence(text).split(" ")
-      lemmatized.map! { |word| word.gsub(/[“”]/, "")} #「"silent killer"」のような場合に対応
-
-      res = lemmatized.reject do |word|
-        word.match?(/['’()!,.0-9:#]/)
-      end
+      lemmatized.map! { |word| word.gsub(/[“”'`?]/, "")} #「"silent killer"」のような場合に対応
+      res = lemmatized.select { |word| is_word?(word) }
       
       res.uniq! if unique
       res.sort! if sort
       res
+    end
+
+    def is_word?(word)
+      !word.match?(/['’()!,.0-9:#]/) && word.length > 0
     end
 
     private
