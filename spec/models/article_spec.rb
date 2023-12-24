@@ -52,6 +52,14 @@ RSpec.describe Article, type: :model do
       @article.update!(params)
       expect(@article.word_count).to eq(3)
     end
+
+    it "作成時にwordsがlemmatizeされて作成される" do
+      @article.save!
+      @article.words.each do |word|
+        lemmatized = WordAnalyzer.lemmatize(word)
+        expect(Word.find_by_name(lemmatized)).to be_truthy
+      end
+    end
   end
 
   context "words" do
@@ -59,8 +67,8 @@ RSpec.describe Article, type: :model do
       @article = FactoryBot.create(:article)
     end
 
-    it "bodyから単語を取得できる" do
-      expected = %w[aa bb cc dd ee why is pandas so popular]
+    it "titleとbodyから単語を取得できる" do
+      expected = %w[test article aa bb cc dd ee why is pandas so popular]
       expect(@article.words.sort).to eq(expected.sort)
     end
   end

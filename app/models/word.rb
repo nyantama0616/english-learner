@@ -21,7 +21,8 @@ class Word < ApplicationRecord
     info = FetchInfo.fetch(self.name)
     
     if info.nil?
-      raise NameError, "Failed to fetch info: #{self.name}"
+      errors.add(:base, "Failed to fetch info: #{self.name}")
+      return false
     end
 
     self.pronunciation = info[:pronunciation]
