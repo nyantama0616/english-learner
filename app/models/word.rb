@@ -5,8 +5,7 @@ class Word < ApplicationRecord
   
   validates :name, uniqueness: true, presence: true, length: { maximum: 255 }
 
-  before_validation :lemmatize
-  before_save :set_info
+  before_validation :lemmatize, :set_info
 
   def info
     json = as_json(only: [:id, :name, :meaning, :stat_frequency, :reported])
@@ -18,6 +17,8 @@ class Word < ApplicationRecord
   private
 
   def set_info
+    return false if Word.exists?(name: self.name) #無駄にinfoをfetchしないようにする
+
     info = FetchInfo.fetch(self.name)
     
     if info.nil?

@@ -33,7 +33,8 @@ RSpec.describe Word, type: :model do
 
   it "nameが?Q?(WordsAPIに存在しない)の場合、モデルの作成に失敗する" do
     @word.name = "?Q?"
-    expect { @word.save! }.to raise_error(NameError)
+    @word.save
+    expect(@word).to be_invalid
   end
 
   it "save時にinfoがfetchされる" do

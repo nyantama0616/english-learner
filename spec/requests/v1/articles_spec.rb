@@ -100,9 +100,6 @@ RSpec.describe "V1::Articles", type: :request do
       TEXT
       
       @article = FactoryBot.create(:article, title: title, body: body)
-      @words = %w[i be born].each do |word|
-        FactoryBot.create(:word, name: word)
-      end
 
       get "/v1/articles/#{@article["id"]}/words"
       @json = JSON.parse(response.body)
