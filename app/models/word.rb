@@ -4,6 +4,11 @@ class Word < ApplicationRecord
   has_one :basic_train_data, dependent: :destroy
   
   validates :name, uniqueness: true, presence: true, length: { maximum: 255 }
+  
+  with_options presence: true do
+    validates :pronunciation
+    validates :stat_frequency
+  end
 
   before_validation :lemmatize, :set_info
 
