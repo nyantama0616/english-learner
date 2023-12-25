@@ -122,6 +122,13 @@ RSpec.describe "WordAnalyzer", type: :job do
       expected = %w[why is pandas so popular what panda giant was fighter yes no years]
       expect(WordAnalyzer.get_words(@text).sort).to eq(expected.sort)
     end
+
+    #TODO: "it's"とかをどうするか
+    pending "case2" do
+      text = "### IT'S ALL RELATIVE"
+      expected = %w[it all relative]
+      expect(WordAnalyzer.get_words(text).sort).to eq(expected.sort)
+    end
   end
 
   context "get_basic_forms" do
