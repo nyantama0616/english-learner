@@ -13,16 +13,13 @@ module FetchWordInfo
       }
       request = Net::HTTP::Get.new(uri, header)
 
-      response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-        http.request(request)
-      end
-
+              response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+          http.request(request)
+        end
+      
       json = JSON.parse(response.body)
-      if json["success"] == false
-        MyLogger::WordsAPI.word_not_found(word_name)
-        return
-      elsif json["pronunciation"] == nil
-        MyLogger::WordsAPI.pronunciation_not_found(json)
+      if response.code != "200"
+        MyLogger::WordsAPI.error(word_name, json["message"], response.code)
         return
       end
 

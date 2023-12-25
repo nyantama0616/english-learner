@@ -7,12 +7,8 @@ module MyLogger
         @@logger.info("Success to fetch: #{word}")
       end
       
-      def word_not_found(word)
-        @@logger.error("Word not found: #{word}")
-      end
-
-      def pronunciation_not_found(word)
-        @@logger.error("Pronunciation not found: #{word}")
+      def error(word, message, code)
+        @@logger.error("Failed to fetch: #{word} (#{message}), code: #{code}")
       end
     end
   end
