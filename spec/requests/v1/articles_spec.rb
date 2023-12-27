@@ -122,4 +122,36 @@ RSpec.describe "V1::Articles", type: :request do
       expect(response).to have_http_status(404)
     end
   end
+
+  describe "GET /articles/:article_id/words" do
+    before do
+      title = "Test Article"
+      body = <<~TEXT
+        I am 20.
+        I was born in America.
+      TEXT
+      
+      @article = FactoryBot.create(:article, title: title, body: body)
+
+      get "/v1/articles/#{@article["id"]}/words"
+      @json = JSON.parse(response.body)
+    end
+
+    it "200が返ってくる" do
+      expect(response).to have_http_status(200)
+    end
+
+    it "レスポンス形式が正しい" do
+      word_json = @json["words"][0]
+      word = Word.find_by_name(word_json["word"])
+      expect(word_json).to eq(word.info)
+    end
+
+    it "単語の基本形のリストが返ってくる" do
+      expected = %w[test article i be bear in america]
+      words = @json["words"].map { |word| word["word"] }
+      
+      expect(words.sort).to eq(expected.sort)
+    end
+  end
 end

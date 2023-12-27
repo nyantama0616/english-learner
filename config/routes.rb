@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
     resources :articles, only: [:index, :show, :create, :update] do
       get "word_dict", to: "articles#word_dict"
+      get "words", to: "articles#words"
     end
 
     get "weblio/:word", to: "weblio#show"

@@ -12,6 +12,11 @@ class Article < ApplicationRecord
     WordAnalyzer.get_words("#{title} #{body}")
   end
 
+  def basic_forms
+    words = WordAnalyzer.get_basic_forms(title, unique: false) + WordAnalyzer.get_basic_forms(body, unique: false)
+    words.uniq
+  end
+
   private
 
   def set_word_count

@@ -71,5 +71,12 @@ RSpec.describe Article, type: :model do
       expected = %w[test article aa bb cc dd ee why is pandas so popular]
       expect(@article.words.sort).to eq(expected.sort)
     end
+
+    it "titleとbodyから単語の基本形を取得できる" do
+      expected = %w[test article aa bb cc dd ee why be panda so popular]
+      expect(@article.basic_forms.sort).to eq(expected.sort)
+    end
+
+
   end
 end

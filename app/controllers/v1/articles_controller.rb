@@ -56,6 +56,29 @@ class V1::ArticlesController < ApplicationController
     render json: { words: res}
   end
 
+  def words
+    article = Article.find_by_id(params[:article_id])
+
+    unless article
+      render json: { error: "Article not found" }, status: :not_found
+      return
+    end
+
+    res = article.basic_forms.map do |word_name|
+      word = Word.find_by_name(word_name)
+      
+      if word
+        word.info
+      else
+        nil
+      end
+    end
+
+    res.compact!
+    
+    render json: { words: res }
+  end
+
   private
 
   def article_short_infos(articles)
