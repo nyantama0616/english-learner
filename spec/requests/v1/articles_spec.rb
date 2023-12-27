@@ -92,7 +92,7 @@ RSpec.describe "V1::Articles", type: :request do
     end
   end
 
-  describe "GET /articles/:article_id/words" do
+  describe "GET /articles/:article_id/word_dict" do
     before do
       title = "Test Article"
       body = <<~TEXT
@@ -101,14 +101,14 @@ RSpec.describe "V1::Articles", type: :request do
       
       @article = FactoryBot.create(:article, title: title, body: body)
 
-      get "/v1/articles/#{@article["id"]}/words"
+      get "/v1/articles/#{@article["id"]}/word_dict"
       @json = JSON.parse(response.body)
     end
 
     it "200が返ってくる" do
       expect(response).to have_http_status(200)
     end
-
+    
     it "レスポンス形式が正しい" do
       expect(@json["words"]["i"]).to eq(Word.find_by_name("i").info)
     end
@@ -118,7 +118,7 @@ RSpec.describe "V1::Articles", type: :request do
     end
 
     it "Articleが存在しない場合は404を返す" do
-      get "/v1/articles/-1/words"
+      get "/v1/articles/-1/word_dict"
       expect(response).to have_http_status(404)
     end
   end

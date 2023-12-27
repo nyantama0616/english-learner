@@ -38,7 +38,7 @@ class V1::ArticlesController < ApplicationController
     end
   end
 
-  def words
+  def word_dict
     article = Article.find_by_id(params[:article_id])
 
     unless article
